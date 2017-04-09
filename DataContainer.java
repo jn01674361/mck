@@ -14,7 +14,7 @@ import org.apache.commons.lang3.time.StopWatch;
 
 /**
  *
- * @author PMIL
+ * @author Joar Nykvist
  */
 public class DataContainer {
     
