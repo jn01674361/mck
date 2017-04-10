@@ -136,11 +136,7 @@ public class MCK {
                 Data.setMeanTorsovNorm(eng);    
                 Data.setMeanTorsoaNorm(eng);
                 Data.setLeftElbowAngl(eng);    
-                Data.setRightElbowAngl(eng);
-//                
-//                System.out.println("MCK TIME"+String.valueOf(stopWatch.getTime()));
-                
-                /*
+                Data.setRightElbowAngl(eng);              
                 Data.setxDirLeftHip(eng);    
                 Data.setyDirLeftHip(eng);
                 Data.setzDirLeftHip(eng);    
