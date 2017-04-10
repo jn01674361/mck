@@ -64,6 +64,8 @@ public class DataContainer {
     public MoCapData getMeanTorsoaNorm(){return MeanTorsoaNorm;}
     public MoCapData getLeftElbowAngl(){return LeftElbowAngl;}    
     public MoCapData getRightElbowAngl(){return RightElbowAngl;}
+    public MoCapData getLeftKneeAngl(){return LeftKneeAngl;}
+    public MoCapData getRightKneeAngl(){return RightKneeAngl;}
     public MoCapData getxDirLeftHip(){return xDirLeftHip;}    
     public MoCapData getyDirLeftHip(){return yDirLeftHip;}
     public MoCapData getzDirLeftHip(){return zDirLeftHip;}    
@@ -151,6 +153,14 @@ public class DataContainer {
     public void setRightElbowAngl(MatlabEngine proxy)throws Exception{
         if(counter<RightElbowAngl.MoCap.length){RightElbowAngl.enterMoCapData(commandList[11], proxy, initTime, false, counter);}
         else{RightElbowAngl.enterMoCapData(commandList[11], proxy, initTime, true, RightShouldervNorm.MoCap.length-1);}
+    }
+    public void setLeftKneeAngl(MatlabEngine proxy)throws Exception{
+        if(counter<LeftKneeAngl.MoCap.length){LeftKneeAngl.enterMoCapData(commandList[10], proxy, initTime, false, counter);}
+        else{LeftKneeAngl.enterMoCapData(commandList[18], proxy, initTime, true, LeftKneeAngl.MoCap.length-1);}
+    }
+    public void setRightKneeAngl(MatlabEngine proxy)throws Exception{
+        if(counter<RightKneeAngl.MoCap.length){RightKneeAngl.enterMoCapData(commandList[11], proxy, initTime, false, counter);}
+        else{RightKneeAngl.enterMoCapData(commandList[19], proxy, initTime, true, LeftKneeAngl.MoCap.length-1);}
     }
     public void setxDirLeftHip(MatlabEngine proxy)throws Exception{
         if(counter<xDirLeftHip.MoCap.length){xDirLeftHip.enterMoCapData(commandList[12], proxy, initTime, false, counter);}
