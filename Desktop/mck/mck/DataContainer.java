@@ -39,6 +39,14 @@ public class DataContainer {
     public MoCapData yDirRightHip= new MoCapData(blankDList,blankDList);
     public MoCapData zDirRightHip= new MoCapData(blankDList,blankDList);
     
+    public double dTimeMov1;
+    public double dTimeMov2;
+    public double dTimeMov3;
+    public double dTimeMov4;
+    public double dTimeMov5;
+    public double dTimeMov6;
+    public double dTimeMov7;
+
     public long initTime;
     
     public int counter;
@@ -64,7 +72,14 @@ public class DataContainer {
     public MoCapData getzDirRightHip(){return zDirRightHip;}
     public String[] getcommandList(){return commandList;}
     public int getcounter(){return counter;}
-    
+    public double getdTimeMov1(){return getTimeMov1;}
+    public double getdTimeMov2(){return getTimeMov2;}
+    public double getdTimeMov3(){return getTimeMov3}
+    public double getdTimeMov4(){return getTimeMov4;}
+    public double getdTimeMov5(){return getTimeMov5;}
+    public double getdTimeMov6(){return getTimeMov6;}
+    public double getdTimeMov7(){return getTimeMov7;}
+
     
     public void setLeftShouldervNorm(MatlabEngine proxy)throws Exception{
         /*
