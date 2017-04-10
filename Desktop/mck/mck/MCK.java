@@ -56,6 +56,7 @@ public class MCK {
         String sRightKnee="1";
         String sLeftFoot = "2";
         String sRightFoot = "3";
+        String sEndMarker ="";
         
         //add Matlab commands and parameters to commandlist 
         sCommands[0]=sVelocityNorm+sLeftShoulder+")";
@@ -113,13 +114,8 @@ public class MCK {
         try{
             while(con==true){
 
-                // check if connected        
-                //con = IsConnected(eng, null);
-
-    //            if(eng==null){System.out.println("eng null");}
-    //            else{System.out.println("eng OK");}
-    //            if(stopWatch==null){System.out.println("stopwatch null");}
-    //            else{System.out.println("stopwatch OK");}
+                //check if connected        
+                con = IsConnected(eng, null);               
 
                 Data.setLeftShouldervNorm(eng);  
                 //System.out.println("HERE"+String.valueOf(Data.LeftShouldervNorm.MoCap[0]));
@@ -150,6 +146,8 @@ public class MCK {
     //            
     //            System.out.println("LATEST"+String.valueOf(MCP[0]));
     //            System.out.println("");
+                  
+
                   
                   //ShouldervNorm
                   for(int i=0;i<Data.LeftShouldervNorm.MoCap.length;i++){
@@ -246,9 +244,7 @@ public class MCK {
         */
         
         boolean bIsConnected;
-        Object connection = eng.getVariable("Client.IsConnected");        
-        String scon = (String) connection;
-        double con = Double.parseDouble(scon);
+        double con = eng.getVariable("Client.IsConnected");        
         
         if(con ==1.0){
             bIsConnected = true;
@@ -260,7 +256,47 @@ public class MCK {
         }
         return bIsConnected;
     }
-        // TODO code application logic here
+
+    public static double GetDistanceBetweenTwoMarkers(String sMarker1, String sMarker2){
+        eng.eval("currentPos=RBPosition("+sMarker1+", Client)");
+        eng.eval("endPos=RBPosition("+sMarker2+", Client)");
+        eng.eval("Distance=sqrt(sum( (currentPos-endPos).^2))");
+        double dist = eng.egetVariable("Distance");
     }
+
+    public static double GetTrackLength(){
+        /*
+        Method for configuring the distance of the track        
+        */
+        double TL = GetDistanceBetweenTwoMarkers(sRightHip, sEndMarker);
+        
+        return TL;
+
+
+    }
+
+    public static double Completion(MatlabEngine eng, String endmarker, double tl){
+        /*
+        *Method for getting how much of the track has been completed
+        *
+        *Arguments:
+        *
+        *eng - Matlab workspace
+        *endmarker - the number of the marker placed at the end of the track as a string
+        *tl - length of the track as a double
+
+        */
+
+        double dTrackLength = GetTrackLength();
+        double dProgress = GetDistanceBetweenTwoMarkers(sRightHip, sEndMarker);        
+        double dCompletion = dProgress/dTrackLength;
+
+
+    }
+
+
+    }
+
+
     
 
