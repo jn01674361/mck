@@ -46,6 +46,7 @@ public class DataContainer {
     public double dTimeMov5;
     public double dTimeMov6;
     public double dTimeMov7;
+    public double dTimeMov8;
 
     public long initTime;
     
