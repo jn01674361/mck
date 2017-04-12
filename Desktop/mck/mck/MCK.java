@@ -23,15 +23,54 @@ public class MCK {
     /**
      * @param args the command line arguments
      */
+
+    public double dStepBoardHeight;
+    public double dStartToFrontStepBoard;
+    public double dStartToBackStepBoard
+    public double dStartToBox;
+
+    public boolean bMovement1Completed=false;
+    public boolean bMovement2Completed=false;
+    public boolean bMovement3Completed=false;
+    public boolean bMovement4Completed=false;
+    public boolean bMovement5Completed=false;
+    public boolean bMovement51Completed=false;
+    public boolean bMovement52Completed=false;    
+    public boolean bMovement6Completed=false;
+    public boolean bMovement7Completed=false;
+    public boolean bMovement8Completed=false;
+
+    public boolean bMovement1Started=false;
+    public boolean bMovement2Started=false;
+    public boolean bMovement3Started=false;
+    public boolean bMovement4Started=false;
+    public boolean bMovement41Started=false;
+    public boolean bMovement42Started=false;
+    public boolean bMovement5Started=false;
+    public boolean bMovement6Started=false;
+    public boolean bMovement7Started=false;
+    public boolean bMovement8Started=false;
+
+
+    
+
     public static void main(String[] args)throws Exception {
         
         
         boolean con = true;
         int counter=0;
         int iListLength=30;
-        int iNoMoCapData= 18;
+        int iNoMoCapData= 20;
         long t0;
+        double dCompletion;
         
+
+        
+        double dKneeStraight = 115.0;
+
+        double dZMargin = 0;
+        double dTrackMargin = 0;
+
         
         String sFolderPath = "C:\\Users\\PMIL\\Desktop\\jn\\MoCapExec";
         String[] sCommands = new String[iNoMoCapData];                
@@ -56,7 +95,9 @@ public class MCK {
         String sRightKnee="1";
         String sLeftFoot = "2";
         String sRightFoot = "3";
-        String sEndMarker ="";
+        String sMeasure1 ="";
+        String sMeasure2="";
+
         
         //add Matlab commands and parameters to commandlist 
         sCommands[0]=sVelocityNorm+sLeftShoulder+")";
@@ -79,6 +120,9 @@ public class MCK {
         sCommands[15]=sVelocityDir+sRightHip+",1)";
         sCommands[16]=sVelocityDir+sRightHip+",2)";
         sCommands[17]=sVelocityDir+sRightHip+",3)";
+
+        sCommands[18]=sAngle+sLeftFoot+","+sLeftHip+","+sLeftKnee+")";
+        sCommands[19]=sAngle+sRightFoot+","+sRightHip+","+sRightKnee+")";
         
 
         for(int i =0;i<sCommands.length;i++){System.out.println(sCommands[i]);}
@@ -108,14 +152,16 @@ public class MCK {
         DataContainer Data = new DataContainer();
         Data.counter=counter;
         Data.commandList=sCommands;
+        configure();  
         Data.initTime = System.currentTimeMillis();
+              
         
-        
-        try{
+        try{            
             while(con==true){
 
                 //check if connected        
                 con = IsConnected(eng, null);               
+                dCompletion = Completion();
 
                 Data.setLeftShouldervNorm(eng);  
                 //System.out.println("HERE"+String.valueOf(Data.LeftShouldervNorm.MoCap[0]));
@@ -132,14 +178,24 @@ public class MCK {
                 Data.setMeanTorsovNorm(eng);    
                 Data.setMeanTorsoaNorm(eng);
                 Data.setLeftElbowAngl(eng);    
-                Data.setRightElbowAngl(eng);              
+                Data.setRightElbowAngl(eng);  
+                Data.setLeftKneeAngl(eng);    
+                Data.setRightKneeAngl(eng);              
                 Data.setxDirLeftHip(eng);    
                 Data.setyDirLeftHip(eng);
                 Data.setzDirLeftHip(eng);    
                 Data.setxDirRightHip(eng);
                 Data.setyDirRightHip(eng);    
                 Data.setzDirRightHip(eng);
-                */
+                
+                if(bMovement1Completed==true){Data.dTimeMov1=System.currentTimeMillis - Data.initTime;}
+                if(){}
+                if(){}
+                if(){}
+                if(){}
+                if(){}
+                if(){}
+
 
     //            MoCapData LeftShouldervNorm = Data.getLeftShouldervNorm();
     //            double[] MCP = LeftShouldervNorm.getMoCap();
@@ -148,7 +204,7 @@ public class MCK {
     //            System.out.println("");
                   
 
-                  
+
                   //ShouldervNorm
                   for(int i=0;i<Data.LeftShouldervNorm.MoCap.length;i++){
                     
@@ -176,6 +232,12 @@ public class MCK {
                   for(int i=0;i<Data.LeftElbowAngl.MoCap.length;i++){
                     
                     System.out.println("T "+ String.valueOf(Data.LeftElbowAngl.Time[i]) + " LEFTELBOWANGL            "+ String.valueOf(Data.LeftElbowAngl.MoCap[i])+ " T "+ String.valueOf(Data.RightElbowAngl.Time[i]) +" RIGHTELBOWANGL            " + String.valueOf(Data.RightElbowAngl.MoCap[i]));
+                }
+
+                 //KneeAngl
+                  for(int i=0;i<Data.LeftKneeAngl.MoCap.length;i++){
+                    
+                    System.out.println("T "+ String.valueOf(Data.LeftKneeAngl.Time[i]) + " LEFTKneeANGL            "+ String.valueOf(Data.LeftKneeAngl.MoCap[i])+ " T "+ String.valueOf(Data.RightKneeAngl.Time[i]) +" RIGHTKneeANGL            " + String.valueOf(Data.RightKneeAngl.MoCap[i]));
                 }
 //                  //MeanTorsoVNorm
                   for(int i=0;i<Data.MeanTorsovNorm.MoCap.length;i++){
@@ -224,9 +286,56 @@ public class MCK {
         // close connection
         eng.disconnect();
     }
+
+    public static void configure(){
+        //guide for configuring the necessary distances to be able to keep track of where in the track the subject is 
+
+        //place one marker at the start and one at the end
+        System.out.println("Place one marker on the floor in the middle of the two front legs of the chair, and the other just in front of the box at the end of track.");
+        pressAnyKeyToContinue();
+        dStartToBox = GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2);
+        System.out.println("Track length configured.");
+
+        //place one marker at the start and one just before the stepboard, on the floor
+        System.out.println("Place one marker on the floor in the middle of the two front legs of the chair, and the other just IN FRONT OF the stepboard, on the floor.");
+        pressAnyKeyToContinue();
+        dStartToFrontStepBoard = GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2);
+        System.out.println("Distance to step board configured.");
+
+        //place on marker at the start and one just after the stepboard, on the floor
+        System.out.println("Place one marker on the floor in the middle of the two front legs of the chair, and the other just BEHIND the stepboard, on the floor.");
+        pressAnyKeyToContinue();
+        dStartToBackStepBoard = GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2);
+        System.out.println("Distance to end of step board configured.");
+
+        //place one marker on top of the stepboard and one below
+        System.out.println("Place one of the markers below the stepboard, and the other on top, directly above.");
+        pressAnyKeyToContinue();
+        dStepBoardHeight = GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2);
+        System.out.println("Step board height configured.");
+
+        System.out.println("Get ready to perform experiment. Data will start to be recorded once you continue.");
+        pressAnyKeyToContinue();
+        bMovement1Started=true;
+
+
+    }
     
     
-                                      
+    private void pressAnyKeyToContinue(){ 
+        
+        //Method for pressing any key to continue 
+
+        System.out.println("Press any key to continue...");
+        try
+        {
+            System.in.read();
+        }  
+        catch(Exception e)
+        {}  
+    }
+
+    private void                                   
    
     
     public static boolean IsConnected(MatlabEngine eng, String printOption) throws Exception{
@@ -261,36 +370,177 @@ public class MCK {
         eng.eval("currentPos=RBPosition("+sMarker1+", Client)");
         eng.eval("endPos=RBPosition("+sMarker2+", Client)");
         eng.eval("Distance=sqrt(sum( (currentPos-endPos).^2))");
-        double dist = eng.egetVariable("Distance");
+        double dist = eng.getVariable("Distance");
+        return dist;
     }
 
-    public static double GetTrackLength(){
-        /*
-        Method for configuring the distance of the track        
-        */
-        double TL = GetDistanceBetweenTwoMarkers(sRightHip, sEndMarker);
-        
-        return TL;
+    public static double GetRBVectorLength(String sMarker){
+
+        eng.eval("Position = RBPosition("+sMarker+", Client)");
+        eng.eval("length = norm(Position)");
+        double le= eng.getVariable("length");
+        return le;
+    }
+
+    public static double GetZComponent(String sMarker){
+
+        eng.eval("Position = RBPosition("+sMarker+", Client)");
+        eng.eval("z = Position(3)");
+        double zComp= eng.getVariable("z");
+        return zComp;
+    }
+
+    
 
 
     }
 
-    public static double Completion(MatlabEngine eng, String endmarker, double tl){
+    public static double Completion(MatlabEngine eng){
         /*
         *Method for getting how much of the track has been completed
         *
         *Arguments:
         *
         *eng - Matlab workspace
-        *endmarker - the number of the marker placed at the end of the track as a string
-        *tl - length of the track as a double
+
+        *Averages the position of the two feet markers
 
         */
+       
+        double dProgress1 = GetRBVectorLength(sRightFoot);
+        double dProgress2 = GetRBVectorLength(sLeftFoot);
+        double dCompletion = (dProgress1+dProgress2)/(2.0*dStartToBox);
 
-        double dTrackLength = GetTrackLength();
-        double dProgress = GetDistanceBetweenTwoMarkers(sRightHip, sEndMarker);        
-        double dCompletion = dProgress/dTrackLength;
+        return dCompletion;
 
+
+    }
+
+    public static boolean checkMovement1Completed(){
+
+
+        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]> dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]> dKneeStraight){
+            bMovement1Completed=true;
+        }
+
+    }
+    
+    public static boolean checkMovement2Completed(){
+
+        if(GetZComponent(sRightFoot)<dStepBoardHeight+dZMargin && GetZComponent(sRightFoot)>dStepBoardHeight-dZMargin && GetZComponent(sLeftFoot)<dStepBoardHeight+dZMargin &&GetZComponent(sLeftFoot)<dStepBoardHeight-dZMargin){
+            bMovement2Completed= true;
+        }
+
+
+    }
+    
+    public static boolean checkMovement3Completed(){
+        if(GetZComponent(sRightFoot)<dStepBoardHeight-margin && GetZComponent(sLeftFoot),dStepBoardHeight-margin){
+            bMovement3Completed= true;            
+        }
+
+
+    }
+    
+    public static boolean checkMovement4Completed(){
+        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]> dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]> dKneeStraight){
+            bMovement4Completed = true;
+        }
+
+
+    }
+
+    public static boolean checkMov51(){
+        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]< dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]< dKneeStraight){
+            bMovement51Completed = true;
+        }
+    }
+
+    public static boolean checkMov52(){
+        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]> dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]> dKneeStraight){
+            bMovement52Completed = true;
+        }
+    }
+    
+
+    
+    public static boolean checkMovement5Completed(){
+        if(bMovement51Completed==true && bMovement52Completed==true){bMovement5Completed=true;}        }
+    }
+    
+    public static boolean checkMovement6Completed(){
+        if(GetZComponent(sRightFoot)<dStepBoardHeight+dZMargin && GetZComponent(sRightFoot)>dStepBoardHeight-dZMargin && GetZComponent(sLeftFoot)<dStepBoardHeight+dZMargin &&GetZComponent(sLeftFoot)<dStepBoardHeight-dZMargin){
+            bMovement6Completed= true;
+    }
+    
+    public static boolean checkMovement7Completed(){
+        if(GetZComponent(sRightFoot)<dStepBoardHeight-margin && GetZComponent(sLeftFoot),dStepBoardHeight-margin){
+            bMovement6Completed= true;            
+        }
+
+    }
+    public static boolean checkMovement8Completed(){
+        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]< dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]< dKneeStraight){
+            bMovement8Completed = true;
+        }
+
+
+    }
+
+    //bools for started movements
+    
+    public static boolean checkMovement2Started(){
+        if(dCompletion< (dStartToFrontStepBoard/dStartToBox)+ dTrackMargin && dCompletion> (dStartToFrontStepBoard/dStartToBox)- dTrackMargin ){
+            bMovement2Started=true;
+        }
+
+
+    }
+    
+    public static boolean checkMovement3Started(){
+        if(bMovement2Completed==true;){bMovement3Started=true;}
+    }
+    
+    public static boolean checkMovement4Started(){
+        if(dCompletion<1.0+dTrackMargin && dCompletion>1.0- dTrackMargin){
+            bMovement4Started=true;
+        }
+
+
+    }
+    public static boolean checkMovement41Started(){
+        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]< dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]< dKneeStraight){
+            bMovement41Started = true;
+        }
+
+    }
+    public static boolean checkMovement42Started(){
+        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]> dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]> dKneeStraight){
+            bMovement42Started = true;
+        }
+
+
+    }
+
+    public static boolean checkMovement5Started(){
+        if(bMovement41Started==true && bMovement42Started==true){bMovement5Started=true;}
+
+
+    }
+    
+    public static boolean checkMovement6Started(){
+        if(dCompletion< (dStartToBox-(dStartToBackStepBoard-dStartToFrontStepBoard))/dStartToBox +dTrackMargin && dCompletion> (dStartToBox-(dStartToBackStepBoard-dStartToFrontStepBoard))/dStartToBox - dTrackMargin)){
+            bMovement6Started=true;
+
+        }
+    }
+    
+    public static boolean checkMovement7Started(){
+        if(bMovement6Completed==true;){bMovement7Started=true;}
+
+    }
+    public static boolean checkMovement8Started(){
+        if(dCompletion<dTrackMargin){bMovement8Completed=true;}
 
     }
 
