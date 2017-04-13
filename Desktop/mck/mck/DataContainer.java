@@ -30,6 +30,8 @@ public class DataContainer {
     public MoCapData RightElbowAngV= new MoCapData(blankDList,blankDList);
     public MoCapData MeanTorsovNorm= new MoCapData(blankDList,blankDList);
     public MoCapData MeanTorsoaNorm= new MoCapData(blankDList,blankDList);
+    public MoCapData LeftKneeAngl= new MoCapData(blankDList,blankDList);
+    public MoCapData RightKneeAngl= new MoCapData(blankDList,blankDList);
     public MoCapData LeftElbowAngl= new MoCapData(blankDList,blankDList);
     public MoCapData RightElbowAngl= new MoCapData(blankDList,blankDList);
     public MoCapData xDirLeftHip= new MoCapData(blankDList,blankDList);
@@ -76,13 +78,13 @@ public class DataContainer {
     public MoCapData getzDirRightHip(){return zDirRightHip;}
     public String[] getcommandList(){return commandList;}
     public int getiListLength(){return iListLength;}
-    public double getdTimeMov1(){return getTimeMov1;}
-    public double getdTimeMov2(){return getTimeMov2;}
-    public double getdTimeMov3(){return getTimeMov3}
-    public double getdTimeMov4(){return getTimeMov4;}
-    public double getdTimeMov5(){return getTimeMov5;}
-    public double getdTimeMov6(){return getTimeMov6;}
-    public double getdTimeMov7(){return getTimeMov7;}
+    public double getdTimeMov1(){return dTimeMov1;}
+    public double getdTimeMov2(){return dTimeMov2;}
+    public double getdTimeMov3(){return dTimeMov3;}
+    public double getdTimeMov4(){return dTimeMov4;}
+    public double getdTimeMov5(){return dTimeMov5;}
+    public double getdTimeMov6(){return dTimeMov6;}
+    public double getdTimeMov7(){return dTimeMov7;}
 
     
     public void setLeftShouldervNorm(MatlabEngine proxy)throws Exception{
@@ -97,96 +99,96 @@ public class DataContainer {
         System.out.println("counter"+String.valueOf(counter));
         System.out.println("length"+String.valueOf(LeftShouldervNorm.MoCap.length));
         */
-        if(counter<LeftShouldervNorm.MoCap.length){
+        if(LeftShouldervNorm.MoCap.length==iListLength){
                        
-            LeftShouldervNorm.enterMoCapData(commandList[0], proxy, initTime, false, counter);}
+            LeftShouldervNorm.enterMoCapData(commandList[0], proxy, initTime, false);}
         else{
 //            if(proxy==null){System.out.println("proxy null");}
 //            else{System.out.println("proxy OK");}
 //            if(stp==null){System.out.println("stopwatch null");}
 //            else{System.out.println("stopwatch OK");}
-            LeftShouldervNorm.enterMoCapData(commandList[0], proxy, initTime, true, LeftShouldervNorm.MoCap.length-1);}
+            LeftShouldervNorm.enterMoCapData(commandList[0], proxy, initTime, true);}
         
         
     }
     public void setRightShouldervNorm(MatlabEngine proxy)throws Exception{
-        if(RightShouldervNorm.MoCap.length==iListLength){RightShouldervNorm.enterMoCapData(commandList[1], proxy, initTime, false, counter);}
-        else{RightShouldervNorm.enterMoCapData(commandList[1], proxy, initTime, true, RightShouldervNorm.MoCap.length-1);}
+        if(RightShouldervNorm.MoCap.length==iListLength){RightShouldervNorm.enterMoCapData(commandList[1], proxy, initTime, false);}
+        else{RightShouldervNorm.enterMoCapData(commandList[1], proxy, initTime, true);}
         
     }
     public void setLeftHipvNorm(MatlabEngine proxy)throws Exception{
-        if(LeftHipvNorm.MoCap.length==iListLength){LeftHipvNorm.enterMoCapData(commandList[2], proxy, initTime, false, counter);}
-        else{LeftHipvNorm.enterMoCapData(commandList[2], proxy, initTime, true, LeftHipvNorm.MoCap.length-1);}
+        if(LeftHipvNorm.MoCap.length==iListLength){LeftHipvNorm.enterMoCapData(commandList[2], proxy, initTime, false);}
+        else{LeftHipvNorm.enterMoCapData(commandList[2], proxy, initTime, true);}
         
     }
     public void setRightHipvNorm(MatlabEngine proxy)throws Exception{
-        if(RightHipvNorm.MoCap.length==iListLength){RightHipvNorm.enterMoCapData(commandList[3], proxy, initTime, false, counter);}
-        else{RightHipvNorm.enterMoCapData(commandList[3], proxy, initTime, true, RightHipvNorm.MoCap.length-1);}
+        if(RightHipvNorm.MoCap.length==iListLength){RightHipvNorm.enterMoCapData(commandList[3], proxy, initTime, false);}
+        else{RightHipvNorm.enterMoCapData(commandList[3], proxy, initTime, true);}
         
     }
     public void setLeftKneeAngV(MatlabEngine proxy)throws Exception{
-        if(LeftKneeAngV.MoCap.length==iListLength){LeftKneeAngV.enterMoCapData(commandList[4], proxy, initTime, false, counter);}
-        else{LeftKneeAngV.enterMoCapData(commandList[4], proxy, initTime, true, LeftKneeAngV.MoCap.length-1);}
+        if(LeftKneeAngV.MoCap.length==iListLength){LeftKneeAngV.enterMoCapData(commandList[4], proxy, initTime, false);}
+        else{LeftKneeAngV.enterMoCapData(commandList[4], proxy, initTime, true);}
     }
     public void setRightKneeAngV(MatlabEngine proxy)throws Exception{
-        if(RightKneeAngV.MoCap.length==iListLength){RightKneeAngV.enterMoCapData(commandList[5], proxy, initTime, false, counter);}
-        else{RightKneeAngV.enterMoCapData(commandList[5], proxy, initTime, true, RightKneeAngV.MoCap.length-1);}
+        if(RightKneeAngV.MoCap.length==iListLength){RightKneeAngV.enterMoCapData(commandList[5], proxy, initTime, false);}
+        else{RightKneeAngV.enterMoCapData(commandList[5], proxy, initTime, true);}
     }
     public void setLeftElbowAngV(MatlabEngine proxy)throws Exception{
-        if(LeftElbowAngV.MoCap.length==iListLength){LeftElbowAngV.enterMoCapData(commandList[6], proxy, initTime, false, counter);}
-        else{LeftElbowAngV.enterMoCapData(commandList[6], proxy, initTime, true, LeftElbowAngV.MoCap.length-1);}
+        if(LeftElbowAngV.MoCap.length==iListLength){LeftElbowAngV.enterMoCapData(commandList[6], proxy, initTime, false);}
+        else{LeftElbowAngV.enterMoCapData(commandList[6], proxy, initTime, true);}
     }
     public void setRightElbowAngV(MatlabEngine proxy)throws Exception{
-        if(RightElbowAngV.MoCap.length==iListLength){RightElbowAngV.enterMoCapData(commandList[7], proxy, initTime, false, counter);}
-        else{RightElbowAngV.enterMoCapData(commandList[7], proxy, initTime, true, RightElbowAngV.MoCap.length-1);}
+        if(RightElbowAngV.MoCap.length==iListLength){RightElbowAngV.enterMoCapData(commandList[7], proxy, initTime, false);}
+        else{RightElbowAngV.enterMoCapData(commandList[7], proxy, initTime, true);}
     }
     public void setMeanTorsovNorm(MatlabEngine proxy)throws Exception{
-        if(MeanTorsovNorm.MoCap.length==iListLength){MeanTorsovNorm.enterMoCapData(commandList[8], proxy, initTime, false, counter);}
-        else{MeanTorsovNorm.enterMoCapData(commandList[8], proxy, initTime, true, MeanTorsovNorm.MoCap.length-1);}
+        if(MeanTorsovNorm.MoCap.length==iListLength){MeanTorsovNorm.enterMoCapData(commandList[8], proxy, initTime, false);}
+        else{MeanTorsovNorm.enterMoCapData(commandList[8], proxy, initTime, true);}
     }
     public void setMeanTorsoaNorm(MatlabEngine proxy)throws Exception{
-        if(MeanTorsoaNorm.MoCap.length==iListLength){MeanTorsoaNorm.enterMoCapData(commandList[9], proxy, initTime, false, counter);}
-        else{MeanTorsoaNorm.enterMoCapData(commandList[9], proxy, initTime, true, MeanTorsoaNorm.MoCap.length-1);}
+        if(MeanTorsoaNorm.MoCap.length==iListLength){MeanTorsoaNorm.enterMoCapData(commandList[9], proxy, initTime, false);}
+        else{MeanTorsoaNorm.enterMoCapData(commandList[9], proxy, initTime, true);}
     }
     public void setLeftElbowAngl(MatlabEngine proxy)throws Exception{
-        if(LeftElbowAngl.MoCap.length==iListLength){LeftElbowAngl.enterMoCapData(commandList[10], proxy, initTime, false, counter);}
-        else{LeftElbowAngl.enterMoCapData(commandList[10], proxy, initTime, true, LeftElbowAngl.MoCap.length-1);}
+        if(LeftElbowAngl.MoCap.length==iListLength){LeftElbowAngl.enterMoCapData(commandList[10], proxy, initTime, false);}
+        else{LeftElbowAngl.enterMoCapData(commandList[10], proxy, initTime, true);}
     }
     public void setRightElbowAngl(MatlabEngine proxy)throws Exception{
-        if(RightElbowAngl.MoCap.length==iListLength){RightElbowAngl.enterMoCapData(commandList[11], proxy, initTime, false, counter);}
-        else{RightElbowAngl.enterMoCapData(commandList[11], proxy, initTime, true, RightShouldervNorm.MoCap.length-1);}
+        if(RightElbowAngl.MoCap.length==iListLength){RightElbowAngl.enterMoCapData(commandList[11], proxy, initTime, false);}
+        else{RightElbowAngl.enterMoCapData(commandList[11], proxy, initTime, true);}
     }
     public void setLeftKneeAngl(MatlabEngine proxy)throws Exception{
-        if(LeftKneeAngl.MoCap.length==iListLength){LeftKneeAngl.enterMoCapData(commandList[10], proxy, initTime, false, counter);}
-        else{LeftKneeAngl.enterMoCapData(commandList[18], proxy, initTime, true, LeftKneeAngl.MoCap.length-1);}
+        if(LeftKneeAngl.MoCap.length==iListLength){LeftKneeAngl.enterMoCapData(commandList[10], proxy, initTime, false);}
+        else{LeftKneeAngl.enterMoCapData(commandList[18], proxy, initTime, true);}
     }
     public void setRightKneeAngl(MatlabEngine proxy)throws Exception{
-        if(RightKneeAngl.MoCap.length==iListLength){RightKneeAngl.enterMoCapData(commandList[11], proxy, initTime, false, counter);}
-        else{RightKneeAngl.enterMoCapData(commandList[19], proxy, initTime, true, LeftKneeAngl.MoCap.length-1);}
+        if(RightKneeAngl.MoCap.length==iListLength){RightKneeAngl.enterMoCapData(commandList[11], proxy, initTime, false);}
+        else{RightKneeAngl.enterMoCapData(commandList[19], proxy, initTime, true);}
     }
     public void setxDirLeftHip(MatlabEngine proxy)throws Exception{
-        if(xDirLeftHip.MoCap.length==iListLength){xDirLeftHip.enterMoCapData(commandList[12], proxy, initTime, false, counter);}
-        else{xDirLeftHip.enterMoCapData(commandList[12], proxy, initTime, true, xDirLeftHip.MoCap.length-1);}
+        if(xDirLeftHip.MoCap.length==iListLength){xDirLeftHip.enterMoCapData(commandList[12], proxy, initTime, false);}
+        else{xDirLeftHip.enterMoCapData(commandList[12], proxy, initTime, true);}
     }
     public void setyDirLeftHip(MatlabEngine proxy)throws Exception{
-        if(yDirLeftHip.MoCap.length==iListLength){yDirLeftHip.enterMoCapData(commandList[13], proxy, initTime, false, counter);}
-        else{yDirLeftHip.enterMoCapData(commandList[13], proxy, initTime, true, yDirLeftHip.MoCap.length-1);}
+        if(yDirLeftHip.MoCap.length==iListLength){yDirLeftHip.enterMoCapData(commandList[13], proxy, initTime, false);}
+        else{yDirLeftHip.enterMoCapData(commandList[13], proxy, initTime, true);}
     }
     public void setzDirLeftHip(MatlabEngine proxy)throws Exception{
-        if(zDirLeftHip.MoCap.length==iListLength){zDirLeftHip.enterMoCapData(commandList[14], proxy, initTime, false, counter);}
-        else{zDirLeftHip.enterMoCapData(commandList[14], proxy, initTime, true, zDirLeftHip.MoCap.length-1);}
+        if(zDirLeftHip.MoCap.length==iListLength){zDirLeftHip.enterMoCapData(commandList[14], proxy, initTime, false);}
+        else{zDirLeftHip.enterMoCapData(commandList[14], proxy, initTime, true);}
     }
     public void setxDirRightHip(MatlabEngine proxy)throws Exception{
-        if(xDirRightHip.MoCap.length==iListLength){xDirRightHip.enterMoCapData(commandList[15], proxy, initTime, false, counter);}
-        else{xDirRightHip.enterMoCapData(commandList[15], proxy, initTime, true, xDirRightHip.MoCap.length-1);}
+        if(xDirRightHip.MoCap.length==iListLength){xDirRightHip.enterMoCapData(commandList[15], proxy, initTime, false);}
+        else{xDirRightHip.enterMoCapData(commandList[15], proxy, initTime, true);}
     }
     public void setyDirRightHip(MatlabEngine proxy)throws Exception{
-        if(yDirRightHip.MoCap.length==iListLength){yDirRightHip.enterMoCapData(commandList[16], proxy, initTime, false, counter);}
-        else{yDirRightHip.enterMoCapData(commandList[16], proxy, initTime, true, yDirRightHip.MoCap.length-1);}
+        if(yDirRightHip.MoCap.length==iListLength){yDirRightHip.enterMoCapData(commandList[16], proxy, initTime, false);}
+        else{yDirRightHip.enterMoCapData(commandList[16], proxy, initTime, true);}
     }
     public void setzDirRightHip(MatlabEngine proxy)throws Exception{
-        if(cDirRightHip.MoCap.length==iListLength){zDirRightHip.enterMoCapData(commandList[17], proxy, initTime, false, counter);}
-        else{zDirRightHip.enterMoCapData(commandList[17], proxy, initTime, true, zDirRightHip.MoCap.length-1);}
+        if(zDirRightHip.MoCap.length==iListLength){zDirRightHip.enterMoCapData(commandList[17], proxy, initTime, false);}
+        else{zDirRightHip.enterMoCapData(commandList[17], proxy, initTime, true);}
     }
     
     
