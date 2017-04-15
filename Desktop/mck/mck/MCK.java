@@ -76,8 +76,8 @@ public class MCK {
     public static String sRightHand="5";
     public static String sLeftHip="9";
     public static String sRightHip="10";
-    public static String sLeftKnee="6";
-    public static String sRightKnee="1";
+    public static String sLeftKnee="1";
+    public static String sRightKnee="6";
     public static String sLeftFoot = "2";
     public static String sRightFoot = "3";
     public static String sMeasure1 ="13";
@@ -103,14 +103,14 @@ public class MCK {
     
 
         boolean con = true;
-        int iListLength=30;
+        int iListLength=5;
         int iNoMoCapData= 20;
         long t0;
         
         
 
         
-        dKneeStraight = 115.0;
+        dKneeStraight = 135.0;
 
         double dZMargin = 0;
         double dTrackMargin = 0;
@@ -182,7 +182,7 @@ public class MCK {
         Data = new DataContainer();
         Data.commandList=sCommands;
         Data.iListLength = iListLength;
-        
+        Data.counter=0;
         //put configure back and coment out movement bool below, reverse if you dont want to have to configure to run
         configure();  
         //bMovement1Started=true;
@@ -196,7 +196,7 @@ public class MCK {
                 //check if connected        
                 con = IsConnected(eng, null);               
                 dCompletion = Completion(eng);
-
+                System.out.println("completion "+String.valueOf(dCompletion));
                                 
 
                 if(bMovement1Started==true && bMovement1Completed==false){
@@ -299,7 +299,7 @@ public class MCK {
 
     public static void PrintKneeAngl(){
         for(int i=0;i<Data.LeftKneeAngl.MoCap.length;i++){
-                    
+                    System.out.println(String.valueOf(Data.LeftKneeAngl.MoCap.length));
                     System.out.println("T "+ String.valueOf(Data.LeftKneeAngl.Time[i]) + " LEFT KNEE ANGLE "+ String.valueOf(Data.LeftKneeAngl.MoCap[i])+ " T "+ String.valueOf(Data.RightKneeAngl.Time[i]) +" RIGHT KNEE ANGLE " + String.valueOf(Data.RightKneeAngl.MoCap[i]));
                 }
     }
@@ -348,25 +348,25 @@ public class MCK {
         Data.setRightHipvNorm(eng);
         Data.setLeftKneeAngV(eng);    
         Data.setRightKneeAngV(eng);
-        Data.setMeanTorsovNorm(eng);    
-        Data.setMeanTorsoaNorm(eng);
+//        Data.setMeanTorsovNorm(eng);    
+//        Data.setMeanTorsoaNorm(eng);
         Data.setLeftKneeAngl(eng);    
         Data.setRightKneeAngl(eng);              
-        Data.setxDirLeftHip(eng);    
-        Data.setyDirLeftHip(eng);
-        Data.setzDirLeftHip(eng);    
-        Data.setxDirRightHip(eng);
-        Data.setyDirRightHip(eng);    
-        Data.setzDirRightHip(eng);
-
+//        Data.setxDirLeftHip(eng);    
+//        Data.setyDirLeftHip(eng);
+//        Data.setzDirLeftHip(eng);    
+//        Data.setxDirRightHip(eng);
+//        Data.setyDirRightHip(eng);    
+//        Data.setzDirRightHip(eng);
+        
+        Data.counter++;
+        System.out.println("counter "+String.valueOf(Data.counter));
+        
         PrintShouldervNorm();
         PrintHipvNorm();
         PrintKneeAngV();
         PrintKneeAngl();
-        PrintTorsoVandA();
-        PrintXDirHip();
-        PrintYDirHip();
-        PrintZDirHip();
+        
 
         if(iMovement ==1){
             checkMovement1Completed();
@@ -422,29 +422,29 @@ public class MCK {
         Data.setRightKneeAngV(eng);
         Data.setLeftElbowAngV(eng);
         Data.setRightElbowAngV(eng);
-        Data.setMeanTorsovNorm(eng);    
-        Data.setMeanTorsoaNorm(eng);
+//        Data.setMeanTorsovNorm(eng);    
+//        Data.setMeanTorsoaNorm(eng);
         Data.setLeftKneeAngl(eng);    
         Data.setRightKneeAngl(eng); 
         Data.setLeftElbowAngl(eng);
         Data.setRightElbowAngl(eng);             
-        Data.setxDirLeftHip(eng);    
-        Data.setyDirLeftHip(eng);
-        Data.setzDirLeftHip(eng);    
-        Data.setxDirRightHip(eng);
-        Data.setyDirRightHip(eng);    
-        Data.setzDirRightHip(eng);
-
+//        Data.setxDirLeftHip(eng);    
+//        Data.setyDirLeftHip(eng);
+//        Data.setzDirLeftHip(eng);    
+//        Data.setxDirRightHip(eng);
+//        Data.setyDirRightHip(eng);    
+//        Data.setzDirRightHip(eng);
+        
+        Data.counter++;
+        System.out.println("counter "+String.valueOf(Data.counter));
+        
         PrintShouldervNorm();
         PrintHipvNorm();
-        PrintKneeAngV();
+        PrintKneeAngV();        
         PrintKneeAngl();
         PrintElbowAngV();
         PrintElbowAngl();
-        PrintTorsoVandA();
-        PrintXDirHip();
-        PrintYDirHip();
-        PrintZDirHip();
+         
 
         if(iMovement ==4){
             checkMovement4Completed();
@@ -468,20 +468,20 @@ public class MCK {
     public static void Gait()throws Exception{
         Data.setLeftHipvNorm(eng);    
         Data.setRightHipvNorm(eng);
-        Data.setMeanTorsovNorm(eng);    
-        Data.setMeanTorsoaNorm(eng);
-        Data.setxDirLeftHip(eng);    
-        Data.setyDirLeftHip(eng);
-        Data.setzDirLeftHip(eng);    
-        Data.setxDirRightHip(eng);
-        Data.setyDirRightHip(eng);    
-        Data.setzDirRightHip(eng);
-
+//        Data.setMeanTorsovNorm(eng);    
+//        Data.setMeanTorsoaNorm(eng);
+//        Data.setxDirLeftHip(eng);    
+//        Data.setyDirLeftHip(eng);
+//        Data.setzDirLeftHip(eng);    
+//        Data.setxDirRightHip(eng);
+//        Data.setyDirRightHip(eng);    
+//        Data.setzDirRightHip(eng);
+        
+        Data.counter++;
+        System.out.println("counter "+String.valueOf(Data.counter));
+        
         PrintHipvNorm();
-        PrintTorsoVandA();
-        PrintXDirHip();
-        PrintYDirHip();
-        PrintZDirHip();
+
     }
 
 
@@ -518,10 +518,10 @@ public class MCK {
         //writer.println(String.valueOf(dStepBoardHeight));
         System.out.println("Step board height configured.");
         
-        dZMargin = 0.1*dStepBoardHeight;
-        dTrackMargin=0.05*dStartToBox;
+        dZMargin = 0.4*dStepBoardHeight;
+        dTrackMargin=0.2*dStartToBox;
         
-        System.out.println("Margin for stepboard height set to 0.1*height, margin for track set to 0.05*length.");
+        System.out.println("Margin for stepboard height set to 0.4*height, margin for track set to 0.2*length.");
         
         System.out.println("Get ready to perform experiment. Data will start to be recorded once you continue.");
         pressAnyKeyToContinue();
@@ -577,17 +577,17 @@ public class MCK {
     }
 
     public static double GetDistanceBetweenTwoMarkers(String sMarker1, String sMarker2)throws Exception{
-        eng.eval("currentPos=RBPosition("+sMarker1+", Client)");
-        eng.eval("endPos=RBPosition("+sMarker2+", Client)");
-        eng.eval("Distance=sqrt(sum( (currentPos-endPos).^2))");
-        eng.eval("Distance=double(Distance)");
+        eng.eval("currentPos=RBPosition("+sMarker1+", Client);");
+        eng.eval("endPos=RBPosition("+sMarker2+", Client);");
+        eng.eval("Distance=sqrt(sum( (currentPos-endPos).^2));");
+        eng.eval("Distance=double(Distance);");
         double dist = eng.getVariable("Distance");
         return dist;
     }
 
     public static double GetRBVectorLength(String sMarker)throws Exception{
 
-        eng.eval("Position = RBPosition("+sMarker+", Client)");
+        eng.eval("Position = RBPosition("+sMarker+", Client);");
         eng.eval("length = norm(Position);");
         eng.eval("length=double(length);");
         double le= eng.getVariable("length");
@@ -596,7 +596,7 @@ public class MCK {
 
     public static double GetZComponent(String sMarker)throws Exception{
 
-        eng.eval("Position = RBPosition("+sMarker+", Client)");
+        eng.eval("Position = RBPosition("+sMarker+", Client);");
         eng.eval("z = Position(3);");
         eng.eval("z=double(z);");
         double zComp= eng.getVariable("z");
@@ -639,8 +639,9 @@ public class MCK {
     }
     
     public static void checkMovement2Completed()throws Exception{
-
-        if(GetZComponent(sRightFoot)<dStepBoardHeight+dZMargin && GetZComponent(sRightFoot)>dStepBoardHeight-dZMargin && GetZComponent(sLeftFoot)<dStepBoardHeight+dZMargin &&GetZComponent(sLeftFoot)<dStepBoardHeight-dZMargin){
+        System.out.println("zcomp "+String.valueOf(Math.abs(GetZComponent(sRightFoot))));
+        System.out.println("stepboard height "+String.valueOf(dStepBoardHeight-dZMargin));
+        if(Math.abs(GetZComponent(sRightFoot))>dStepBoardHeight-dZMargin && Math.abs(GetZComponent(sLeftFoot))<dStepBoardHeight-dZMargin){
             bMovement2Completed= true;
         }
 
@@ -648,7 +649,7 @@ public class MCK {
     }
     
     public static void checkMovement3Completed()throws Exception{
-        if(GetZComponent(sRightFoot)<dStepBoardHeight-dZMargin && GetZComponent(sLeftFoot)<dStepBoardHeight-dZMargin){
+        if(Math.abs( GetZComponent(sRightFoot))<dStepBoardHeight+dZMargin && Math.abs(GetZComponent(sLeftFoot))<dStepBoardHeight+dZMargin){
             bMovement3Completed= true;            
         }
 
@@ -664,7 +665,7 @@ public class MCK {
     }
 
     public static void checkMov51(){
-        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]< dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]< dKneeStraight){
+        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]< dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]< dKneeStraight && Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1] + Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]>0.0){
             bMovement51Completed = true;
         }
     }
@@ -682,18 +683,18 @@ public class MCK {
     
     
     public static void checkMovement6Completed()throws Exception{
-        if(GetZComponent(sRightFoot)<dStepBoardHeight+dZMargin && GetZComponent(sRightFoot)>dStepBoardHeight-dZMargin && GetZComponent(sLeftFoot)<dStepBoardHeight+dZMargin &&GetZComponent(sLeftFoot)<dStepBoardHeight-dZMargin){
+        if(Math.abs(GetZComponent(sRightFoot))<dStepBoardHeight+dZMargin && Math.abs(GetZComponent(sRightFoot))>dStepBoardHeight-dZMargin && GetZComponent(sLeftFoot)<dStepBoardHeight+dZMargin &&GetZComponent(sLeftFoot)<dStepBoardHeight-dZMargin){
             bMovement6Completed= true;}
     }
     
     public static void checkMovement7Completed()throws Exception{
-        if(GetZComponent(sRightFoot)<dStepBoardHeight-dZMargin && GetZComponent(sLeftFoot)<dStepBoardHeight-dZMargin){
+        if(Math.abs(GetZComponent(sRightFoot))<dStepBoardHeight-dZMargin && Math.abs(GetZComponent(sLeftFoot))<dStepBoardHeight-dZMargin){
             bMovement6Completed= true;            
         }
 
     }
     public static void checkMovement8Completed(){
-        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]< dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]< dKneeStraight){
+        if(Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1]< dKneeStraight && Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]< dKneeStraight && Data.LeftKneeAngl.MoCap[Data.LeftKneeAngl.MoCap.length -1] + Data.RightKneeAngl.MoCap[Data.RightKneeAngl.MoCap.length -1]>0.0){
             bMovement8Completed = true;
         }
 
