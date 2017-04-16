@@ -91,12 +91,12 @@ public class DataContainer {
     
     public void setLeftShouldervNorm(MatlabEngine proxy)throws Exception{
         
-        if(LeftShouldervNorm==null){System.out.println("LeftShouldervNorm null");}
-        else{System.out.println("LeftShouldervNorm OK");} 
-        if(LeftShouldervNorm.MoCap==null){System.out.println("LeftShouldervNorm.MoCap null");}
-        else{System.out.println("LeftShouldervNorm.MoCap OK");}
-        if(commandList==null){System.out.println("commandlist null");}
-        else{System.out.println("commandlist OK");}
+//        if(LeftShouldervNorm==null){System.out.println("LeftShouldervNorm null");}
+//        else{System.out.println("LeftShouldervNorm OK");} 
+//        if(LeftShouldervNorm.MoCap==null){System.out.println("LeftShouldervNorm.MoCap null");}
+//        else{System.out.println("LeftShouldervNorm.MoCap OK");}
+//        if(commandList==null){System.out.println("commandlist null");}
+//        else{System.out.println("commandlist OK");}
         
         //System.out.println("length"+String.valueOf(LeftShouldervNorm.MoCap.length));
         
