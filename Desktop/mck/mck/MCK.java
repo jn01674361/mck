@@ -287,7 +287,7 @@ public class MCK {
         
     }
     public static boolean checkBoxArea(){
-        if(dCompletion>dSTEPBOARDAREA){return true;}
+        if(dCompletion>d1BOXAREA){return true;}
         else{return false;}
     }
 
@@ -313,7 +313,7 @@ public class MCK {
         d2STEPBOARDAREA = (GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2))/dStartToBox;
         System.out.println("STEPBOARD AREA CONFIGURED"+ String.valueOf(d2STEPBOARDAREA));
 
-        System.out.println("Place one marker on the floor in the middle of the two front legs of the chair, and the other where the BOX AREA BEGINS.");
+        System.out.println("Place ocne marker on the floor in the middle of the two front legs of the chair, and the other where the BOX AREA BEGINS.");
         pressEnterToContinue();
         d1BOXAREA = (GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2))/dStartToBox;
         System.out.println("BOX AREA CONFIGURED" + String.valueOf(d1BOXAREA));            
