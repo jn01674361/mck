@@ -138,15 +138,15 @@ public class MCK {
                 System.out.println("time "+String.valueOf(dElapsedTime)+"  *10^-1 s");
                 
                 if(checkChairArea()==true){
-                    Movement123678(1);
+                    Movement123678();
                     System.out.println("CHAIR");
                 }
                 else if(checkStepboardArea()==true){
-                    Movement123678(1);
+                    Movement123678();
                     System.out.println("STEPBOARD");
                 }
                 else if(checkBoxArea()==true){
-                    Movement45(4);
+                    Movement45();
                     bEnteredBoxArea=true;
                     System.out.println("BOX");
                 }
