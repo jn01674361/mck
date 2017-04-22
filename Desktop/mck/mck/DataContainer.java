@@ -18,8 +18,10 @@ import org.apache.commons.lang3.time.StopWatch;
  */
 public class DataContainer {
     
+    //empty array of length 1 for initiating MoCapData objects
     public double[] blankDList = new double[1];
     
+    //mocapdata objects
     public MoCapData LeftShouldervNorm = new MoCapData(blankDList,blankDList);
     public MoCapData RightShouldervNorm= new MoCapData(blankDList,blankDList);
 
@@ -38,13 +40,18 @@ public class DataContainer {
     public MoCapData LeftElbowAngl= new MoCapData(blankDList,blankDList);
     public MoCapData RightElbowAngl= new MoCapData(blankDList,blankDList);         
 
+    //time origin
     public long initTime;
     
     public int counter;
+    
+    //length of data arrays
     public int iListLength;
 
+    //string array with commands to run in matlab
     public String[] commandList;
     
+    //getters 
     public MoCapData getLeftShouldervNorm(){return LeftShouldervNorm;}    
     public MoCapData getRightShouldervNorm(){return RightShouldervNorm;}
     public MoCapData getLeftHipvNorm(){return LeftHipvNorm;}    
@@ -61,6 +68,10 @@ public class DataContainer {
     public int getiListLength(){return iListLength;}
     public int getcounter(){return counter;}
 
+    //setters for mocapdata objects
+    //all work analogously, determining if all arrays are filled or not and accordingly setting "full" to true of false
+    //use the enterMoCapData method of the MoCapData class 
+    //needs the matlab workspace as a parameter.
     
     public void setLeftShouldervNorm(MatlabEngine proxy)throws Exception{                
         if(counter < iListLength-1){LeftShouldervNorm.enterMoCapData(commandList[0], proxy, initTime, false);}
