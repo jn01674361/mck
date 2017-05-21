@@ -1,63 +1,90 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package mck;
+//MAIN
+
+package Desktop.mck.mck;
 
 import com.mathworks.engine.*;
-import java.util.*;
 import java.lang.*;
-import java.time.*;
-import org.apache.commons.lang3.*;
-import org.apache.commons.lang3.time.StopWatch;
-import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.concurrent.TimeUnit;
 
 
 /**
  *
- * @author PMIL
+ * @author Joar Nykvist
  */
 public class MCK {
+//public class MCK implements Runnable{ //To be able to start this in a thread. //TODO
 
     /**
      * @param args the command line arguments
      */
+
+    //distaces
+    public static double dStartToBox;
+    public static double d2CHAIRAREA;
+    public static double d1STEPBOARDAREA;
+    public static double d2STEPBOARDAREA;
+    public static double d1BOXAREA;
+    public static double dCompletion;
+    public static double dBackHome=0.09;
+
+    public static double dElapsedTime;
+    public static long lElapsedTime;
+
+    //class containging mocap data
+    public static DataContainer Data;
+
+    //matlab workspace
+    public static MatlabEngine eng;
+
+    //bool for knowing if the subject has reached the box zone yet or not
+    public static boolean bEnteredBoxArea=false;
+
+    //declare RB enumeration, this is set in Motive when the RB's are imported
+    public static String sLeftShoulder="11";
+    public static String sRightShoulder="12";
+    public static String sLeftElbow="8";
+    public static String sRightElbow="7";
+    public static String sLeftHand="4";
+    public static String sRightHand="5";
+    public static String sLeftHip="9";
+    public static String sRightHip="10";
+    public static String sLeftKnee="1";
+    public static String sRightKnee="6";
+    public static String sLeftFoot = "2";
+    public static String sRightFoot = "3";
+    public static String sMeasure1 ="13";
+    public static String sMeasure2="14";
+
+
+
+
+
+    /**
+     *
+     * @throws Exception
+     */
     public static void main(String[] args)throws Exception {
-        
-        
-        boolean con = true;
-        int counter=0;
-        int iListLength=30;
-        int iNoMoCapData= 18;
-        long t0;
-        
-        
+        // @Override //TODO
+        // public void run(){
+
+        //number of arrays and array length of mocapdata objects
+        int iListLength=5;
+        int iNoMoCapData= 12;
+
+        //path to matlab files
         String sFolderPath = "C:\\Users\\PMIL\\Desktop\\jn\\MoCapExec";
-        String[] sCommands = new String[iNoMoCapData];                
-        
+
+        //array containing commands to run in matlab
+        String[] sCommands = new String[iNoMoCapData];
+
         //declare MatLab commands
         String sVelocityNorm = "velocityNorm(Client,";
         String sAngularVelocity = "angularVelocity(Client,";
-        String sAccNorm="accNorm(Client,";
         String sAngle = "angle(Client,";
-        String sVelocityDir = "velocityDir(Client,";
-        
-        //declare RB enumeration
-        String sLeftShoulder="11";
-        String sRightShoulder="12";
-        String sLeftElbow="8";
-        String sRightElbow="7";
-        String sLeftHand="4";
-        String sRightHand="5";
-        String sLeftHip="9";
-        String sRightHip="10";
-        String sLeftKnee="6";
-        String sRightKnee="1";
-        String sLeftFoot = "2";
-        String sRightFoot = "3";
-        
-        //add Matlab commands and parameters to commandlist 
+
+
+        //add Matlab commands and parameters to commandlist
         sCommands[0]=sVelocityNorm+sLeftShoulder+")";
         sCommands[1]=sVelocityNorm+sRightShoulder+")";
         sCommands[2]=sVelocityNorm+sLeftHip+")";
@@ -66,200 +93,402 @@ public class MCK {
         sCommands[5]=sAngularVelocity+sRightFoot+","+sRightHip+","+sRightKnee+")";
         sCommands[6]=sAngularVelocity+sLeftHand+","+sLeftShoulder+","+sLeftElbow+")";
         sCommands[7]=sAngularVelocity+sRightHand+","+sRightShoulder+","+sRightElbow+")";
-        sCommands[8]="("+sVelocityNorm+sRightHip+")+"+sVelocityNorm+sLeftHip+")+"+sVelocityNorm+sLeftShoulder+")+"+sVelocityNorm+sRightShoulder+")" +")/4";
-        sCommands[9]="("+sAccNorm+sRightHip+")+"+sAccNorm+sLeftHip+")+"+sAccNorm+sLeftShoulder+")+"+sAccNorm+sRightShoulder+")" +")/4";
-        sCommands[10]=sAngle+sLeftHand+","+sLeftShoulder+","+sLeftElbow+")";
-        sCommands[11]=sAngle+sRightHand+","+sRightShoulder+","+sRightElbow+")";
-        
-        /*
-        sCommands[12]=sVelocityDir+sLeftHip+",'x')";
-        sCommands[13]=sVelocityDir+sLeftHip+",'y')";
-        sCommands[14]=sVelocityDir+sLeftHip+",'z')";
-        sCommands[15]=sVelocityDir+sRightHip+",'x')";
-        sCommands[16]=sVelocityDir+sRightHip+",'y')";
-        sCommands[17]=sVelocityDir+sRightHip+",'z')";
-        */
-        for(int i =0;i<sCommands.length;i++){System.out.println(sCommands[i]);}
-        
-         
-        MatlabEngine eng = MatlabEngine.startMatlab();
+        sCommands[8]=sAngle+sLeftHand+","+sLeftShoulder+","+sLeftElbow+")";
+        sCommands[9]=sAngle+sRightHand+","+sRightShoulder+","+sRightElbow+")";
+        sCommands[10]=sAngle+sLeftFoot+","+sLeftHip+","+sLeftKnee+")";
+        sCommands[11]=sAngle+sRightFoot+","+sRightHip+","+sRightKnee+")";
+
+
+        for(int i =0;i<sCommands.length;i++){
+            System.out.println(sCommands[i]);
+        }
+
+        //initiate matlab workspace
+        eng = MatlabEngine.startMatlab();
 
         // add directory to matlab search path
-        eng.eval("addpath('"+sFolderPath+"')");        
+        eng.eval("addpath('"+sFolderPath+"')");
         // programmatically run natnet sdk
-        eng.eval("run('natnet.m')");                
+        eng.eval("run('natnet.m')");
         // create instance of natnet
-        eng.eval("Client=natnet()");        
+        eng.eval("Client=natnet()");
         // set host ip
-        eng.eval("Client.HostIP='127.0.0.1'");        
+        eng.eval("Client.HostIP='127.0.0.1'");
         // set client ip
-        eng.eval("Client.HostIP='127.0.0.1'");        
+        eng.eval("Client.HostIP='127.0.0.1'");
         // connect to server
-        eng.eval("Client.connect"); 
-        
-        //for(int i =1;i<12;i++){
-          //  eng.eval("Client.getFrame('rigidbody',"+i+").RigidBody.x");
-        //}
-                                
-        //con = IsConnected(eng, "p");                
-        
-        DataContainer Data = new DataContainer();
-        Data.counter=counter;
+        eng.eval("Client.connect");
+
+        //initiate datacontainer object
+        Data = new DataContainer();
+        //add matlab commands
         Data.commandList=sCommands;
+        //add array length
+        Data.iListLength = iListLength;
+        //start the counter
+        Data.counter=0;
+        //configure distances
+        configure();
+        //set time origin
         Data.initTime = System.currentTimeMillis();
-        
-        
+
+       // while (!info.isCloseProgram()) { //Use same configuration for multiple walks on the track. //TODO
+            startTrackingPerson();
+     //   }
+
+        // disconnect natnet
+        eng.eval("Client.disconnect");
+
+        // remove directory from matalab search path
+        eng.eval("rmpath('"+sFolderPath+"')");
+
+        // close connection
+        eng.disconnect();
+    }
+
+    /**
+     * Performs tracking of the test subjects movements.
+     */
+    public static void startTrackingPerson(){
+
+        /*while (!info.isStart()){ // While the user has not pressed to start, wait. //TODO
+            try{
+                TimeUnit.MILLISECONDS.sleep(500);
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }*/
+
         try{
-            while(con==true){
+            while(bEnteredBoxArea==false || dCompletion>dBackHome){ // TODO ersätt dCompletion>dBackHome med (dCompletion>dBackHome && info.isBackSitting())
+                //while the subject is not in the starting position and has not yet reached the box area
 
-                // check if connected        
-                //con = IsConnected(eng, null);
+                //check how much of the track has been completed
+                dCompletion = Completion(eng);
+                //info.setCompletion(dCompletion); // Set the completion in the class provided by Main //TODO
 
-    //            if(eng==null){System.out.println("eng null");}
-    //            else{System.out.println("eng OK");}
-    //            if(stopWatch==null){System.out.println("stopwatch null");}
-    //            else{System.out.println("stopwatch OK");}
+                //get how much time has passed and convert to seconds *10^-1
+                lElapsedTime = (System.currentTimeMillis() - Data.initTime)/100;
+                dElapsedTime=(double) lElapsedTime;
 
-                Data.setLeftShouldervNorm(eng);  
-                //System.out.println("HERE"+String.valueOf(Data.LeftShouldervNorm.MoCap[0]));
-                //System.out.println("counter"+String.valueOf(Data.counter));
-                //System.out.println("length"+String.valueOf(Data.LeftShouldervNorm.MoCap.length));
-                Data.setRightShouldervNorm(eng);
-//    //            System.out.println("HERE"+String.valueOf(Data.LeftShouldervNorm.MoCap[0]));
-                Data.setLeftHipvNorm(eng);    
-                Data.setRightHipvNorm(eng);
-                Data.setLeftKneeAngV(eng);    
-                Data.setRightKneeAngV(eng);
-                Data.setLeftElbowAngV(eng);    
-                Data.setRightElbowAngV(eng);
-                Data.setMeanTorsovNorm(eng);    
-                Data.setMeanTorsoaNorm(eng);
-                Data.setLeftElbowAngl(eng);    
-                Data.setRightElbowAngl(eng);
-//                
-//                System.out.println("MCK TIME"+String.valueOf(stopWatch.getTime()));
-                
-                /*
-                Data.setxDirLeftHip(eng);    
-                Data.setyDirLeftHip(eng);
-                Data.setzDirLeftHip(eng);    
-                Data.setxDirRightHip(eng);
-                Data.setyDirRightHip(eng);    
-                Data.setzDirRightHip(eng);
-                */
+                System.out.println("completion "+String.valueOf(100*dCompletion)+"  %");
+                System.out.println("time "+String.valueOf(dElapsedTime)+"  *10^-1 s");
 
-    //            MoCapData LeftShouldervNorm = Data.getLeftShouldervNorm();
-    //            double[] MCP = LeftShouldervNorm.getMoCap();
-    //            
-    //            System.out.println("LATEST"+String.valueOf(MCP[0]));
-    //            System.out.println("");
-                  
-                  //ShouldervNorm
-                  for(int i=0;i<Data.LeftShouldervNorm.MoCap.length;i++){
-                    
-                    System.out.println("T "+ String.valueOf(Data.LeftShouldervNorm.Time[i]) + " LEFTSHOULDERVNORM            "+ String.valueOf(Data.LeftShouldervNorm.MoCap[i])+ " T "+ String.valueOf(Data.RightShouldervNorm.Time[i]) +" RIGHTSHOULDERVNORM            " + String.valueOf(Data.RightShouldervNorm.MoCap[i]));
+                //if the subject is in the chair zone, set and print the relevant data
+                if(checkChairArea()){
+                    // info.setActiveArea(0); //TODO
+                    Movement123678();
+                    System.out.println("CHAIR");
                 }
-//                 
-//                  //HipvNorm
-                  for(int i=0;i<Data.LeftHipvNorm.MoCap.length;i++){
-                    
-                    System.out.println("T "+ String.valueOf(Data.LeftHipvNorm.Time[i]) + " LEFTHIPVNORM            "+ String.valueOf(Data.LeftHipvNorm.MoCap[i])+ " T "+ String.valueOf(Data.RightHipvNorm.Time[i]) +" RIGHTHIPVNORM            " + String.valueOf(Data.RightHipvNorm.MoCap[i]));
+                //subject in stepboard zone
+                else if(checkStepboardArea()){
+                    // info.setActiveArea(1);  //TODO
+                    Movement123678();
+                    System.out.println("STEPBOARD");
                 }
-                  //KneeAngV
-                  for(int i=0;i<Data.LeftKneeAngV.MoCap.length;i++){
-                    
-                    System.out.println("T "+ String.valueOf(Data.LeftKneeAngV.Time[i]) + " LEFTKNEEANGV            "+ String.valueOf(Data.LeftKneeAngV.MoCap[i])+ " T "+ String.valueOf(Data.RightKneeAngV.Time[i]) +" RIGHTKNEEANGV            " + String.valueOf(Data.RightKneeAngV.MoCap[i]));
+                //subject in box zone
+                else if(checkBoxArea()){
+                    // info.setActiveArea(2); //TODO
+                    Movement45();
+                    bEnteredBoxArea=true;
+                    System.out.println("BOX");
                 }
-//                  
-//                  //ElbowAngV
-                  for(int i=0;i<Data.LeftElbowAngV.MoCap.length;i++){
-                    
-                    System.out.println("T "+ String.valueOf(Data.LeftElbowAngV.Time[i]) + " LEFTELBOWANGV            "+ String.valueOf(Data.LeftElbowAngV.MoCap[i])+ " T "+ String.valueOf(Data.RightElbowAngV.Time[i]) +" RIGHTELBOWANGV            " + String.valueOf(Data.RightElbowAngV.MoCap[i]));
+                //if the subject is inbetween zones, set and print the relevant data for gait
+                else{
+                    // info.setActiveArea(3); //TODO
+                    System.out.println("GAIT");
+                    Gait();
                 }
-//                  
-//                  //ElbowAngl
-                  for(int i=0;i<Data.LeftElbowAngl.MoCap.length;i++){
-                    
-                    System.out.println("T "+ String.valueOf(Data.LeftElbowAngl.Time[i]) + " LEFTELBOWANGL            "+ String.valueOf(Data.LeftElbowAngl.MoCap[i])+ " T "+ String.valueOf(Data.RightElbowAngl.Time[i]) +" RIGHTELBOWANGL            " + String.valueOf(Data.RightElbowAngl.MoCap[i]));
-                }
-//                  //MeanTorsoVNorm
-                  for(int i=0;i<Data.MeanTorsovNorm.MoCap.length;i++){
-                    
-                    System.out.println("T "+ String.valueOf(Data.MeanTorsovNorm.Time[i]) + " TORSO V            "+ String.valueOf(Data.MeanTorsovNorm.MoCap[i])+ " T "+ String.valueOf(Data.MeanTorsoaNorm.Time[i]) +" TORSO A            " + String.valueOf(Data.MeanTorsoaNorm.MoCap[i]));
-                }
-                  
-
-                /*
-                System.out.print(String.valueOf(Data.xDirLeftHip.MoCap[0]));
-                System.out.print(String.valueOf(Data.yDirLeftHip.MoCap[0]));
-                System.out.print(String.valueOf(Data.zDirLeftHip.MoCap[0]));
-                System.out.print(String.valueOf(Data.xDirRightHip.MoCap[0]));
-                System.out.print(String.valueOf(Data.yDirRightHip.MoCap[0]));
-                System.out.print(String.valueOf(Data.zDirRightHip.MoCap[0]));
-                */
-
-                Data.counter++;
-                if(Data.counter==30){System.out.println("ALL LISTS ARE FILLED - OK TO START");}
-
-
-
 
 
             }
         }catch(java.lang.ArrayIndexOutOfBoundsException e){
             System.out.println("INDEX OUT OF RANGE" );
-            for(int i=0;i<Data.LeftShouldervNorm.MoCap.length;i++){
-                    
-                    System.out.println(String.valueOf(Data.LeftShouldervNorm.MoCap[i]));
-                }
-        
+
+        }catch(java.lang.Exception e){
+            System.out.println("EXEPTION in startTrackingPerson" );
+            e.printStackTrace();
+
         }
-        
-        
-        // disconnect natnet 
-        eng.eval("Client.disconnect");
-        
-        // remove directory from matalab search path
-        eng.eval("rmpath('"+sFolderPath+"')");
-        
-        // close connection
-        eng.disconnect();
     }
-    
-    
-                                      
-   
-    
-    public static boolean IsConnected(MatlabEngine eng, String printOption) throws Exception{
-        
-        /**
-         * Method for cheking if the NatNet Client is connected to MoCap software
-         * 
-         * Arguments:
-         * 
-         * eng - MatLab workspace
-         * printOption - enter "p" to print connection status, else enter null
-         * 
-         * DOESNT WORK, OBJECT CANNOT BE CONVERTED TO ANYTHING, NEED TO CREATE MATLAB FUNCTION REPLACING THIS METHOD
-         * 
-        */
-        
-        boolean bIsConnected;
-        Object connection = eng.getVariable("Client.IsConnected");        
-        String scon = (String) connection;
-        double con = Double.parseDouble(scon);
-        
-        if(con ==1.0){
-            bIsConnected = true;
-            if (printOption=="p"){System.out.println("CONNECTED");}
+
+    //All print methods work analogously, loop through a specific array and print the mocap data along with the time
+
+    public static void PrintShouldervNorm(){
+        for(int i=0;i<Data.LeftShouldervNorm.MoCap.length;i++){
+            System.out.println("T "+ String.valueOf(Data.LeftShouldervNorm.Time[i]) + " LEFT SHOULDER VELOCITY NORM "+ String.valueOf(Data.LeftShouldervNorm.MoCap[i])+ " T "+ String.valueOf(Data.RightShouldervNorm.Time[i]) +" RIGHT SHOULDER VELOCITY NORM " + String.valueOf(Data.RightShouldervNorm.MoCap[i]));
+        }
+    }
+
+    public static void PrintHipvNorm(){
+        for(int i=0;i<Data.LeftHipvNorm.MoCap.length;i++){
+            System.out.println("T "+ String.valueOf(Data.LeftHipvNorm.Time[i]) + " LEFT HIP VELOCITY NORM"+ String.valueOf(Data.LeftHipvNorm.MoCap[i])+ " T "+ String.valueOf(Data.RightHipvNorm.Time[i]) +" RIGHT HIP VELOCITY NORM " + String.valueOf(Data.RightHipvNorm.MoCap[i]));
+        }
+    }
+
+    public static void PrintKneeAngV(){
+        for(int i=0;i<Data.LeftKneeAngV.MoCap.length;i++){
+            System.out.println("T "+ String.valueOf(Data.LeftKneeAngV.Time[i]) + " LEFT KNEE ANGULAR VELOCITY"+ String.valueOf(Data.LeftKneeAngV.MoCap[i])+ " T "+ String.valueOf(Data.RightKneeAngV.Time[i]) +" RIGHT KNEE ANGULAR VELOCITY " + String.valueOf(Data.RightKneeAngV.MoCap[i]));
+        }
+    }
+
+    public static void PrintElbowAngV(){
+        for(int i=0;i<Data.LeftElbowAngV.MoCap.length;i++){
+            System.out.println("T "+ String.valueOf(Data.LeftElbowAngV.Time[i]) + " LEFT ELBOW ANGULAR VELOCITY "+ String.valueOf(Data.LeftElbowAngV.MoCap[i])+ " T "+ String.valueOf(Data.RightElbowAngV.Time[i]) +" RIGHT ELBOW ANGULAR VELOCITY " + String.valueOf(Data.RightElbowAngV.MoCap[i]));
+        }
+    }
+
+    public static void PrintKneeAngl(){
+        for(int i=0;i<Data.LeftKneeAngl.MoCap.length;i++){
+            System.out.println("T "+ String.valueOf(Data.LeftKneeAngl.Time[i]) + " LEFT KNEE ANGLE "+ String.valueOf(Data.LeftKneeAngl.MoCap[i])+ " T "+ String.valueOf(Data.RightKneeAngl.Time[i]) +" RIGHT KNEE ANGLE " + String.valueOf(Data.RightKneeAngl.MoCap[i]));
+        }
+    }
+
+    public static void PrintElbowAngl(){
+        for(int i=0;i<Data.LeftElbowAngl.MoCap.length;i++){
+            System.out.println("T "+ String.valueOf(Data.LeftElbowAngl.Time[i]) + " LEFT ELBOW ANGLE "+ String.valueOf(Data.LeftElbowAngl.MoCap[i])+ " T "+ String.valueOf(Data.RightElbowAngl.Time[i]) +" RIGHT ELBOW ANGLE " + String.valueOf(Data.RightElbowAngl.MoCap[i]));
+        }
+    }
+
+
+    public static void Movement123678()throws Exception{
+
+        //sets the data deemed relevant for movements in chair zone and stepboard zone
+        Data.setLeftShouldervNorm(eng);
+        Data.setRightShouldervNorm(eng);
+        Data.setLeftHipvNorm(eng);
+        Data.setRightHipvNorm(eng);
+        Data.setLeftKneeAngV(eng);
+        Data.setRightKneeAngV(eng);
+        Data.setLeftKneeAngl(eng);
+        Data.setRightKneeAngl(eng);
+
+        //Set the relevant lists in Information object TODO
+        /*
+        info.setLeftShouldervNorm(Data.getLeftShouldervNorm());
+        info.setRightShouldervNorm(Data.getRightShouldervNorm());
+        info.setLeftHipvNorm(Data.getLeftHipvNorm());
+        info.setRightHipvNorm(Data.getRightHipvNorm());
+        info.setLeftKneeAngV(Data.getLeftKneeAngV());
+        info.setRightKneeAngV(Data.getRightKneeAngV());
+        info.setLeftKneeAngl(Data.getLeftKneeAngl());
+        info.setRightKneeAngl(Data.getRightKneeAngl());
+         */
+
+        //increase counter by 1
+        Data.counter++;
+
+        //print the recorded data
+        PrintShouldervNorm();
+        PrintHipvNorm();
+        PrintKneeAngV();
+        PrintKneeAngl();
+
+    }
+    public static void Movement45()throws Exception{
+
+        //sets the data deemed relevant for movements in the box zone
+        Data.setLeftShouldervNorm(eng);
+        Data.setRightShouldervNorm(eng);
+        Data.setLeftHipvNorm(eng);
+        Data.setRightHipvNorm(eng);
+        Data.setLeftKneeAngV(eng);
+        Data.setRightKneeAngV(eng);
+        Data.setLeftElbowAngV(eng);
+        Data.setRightElbowAngV(eng);
+        Data.setLeftKneeAngl(eng);
+        Data.setRightKneeAngl(eng);
+        Data.setLeftElbowAngl(eng);
+        Data.setRightElbowAngl(eng);
+
+        //Set the relevant lists in Information object TODO
+        /*
+        info.setLeftShouldervNorm(Data.getLeftShouldervNorm());
+        info.setRightShouldervNorm(Data.getRightShouldervNorm());
+        info.setLeftHipvNorm(Data.getLeftHipvNorm());
+        info.setRightHipvNorm(Data.getRightHipvNorm());
+        info.setLeftKneeAngV(Data.getLeftKneeAngV());
+        info.setRightKneeAngV(Data.getRightKneeAngV());
+        info.setLeftElbowAngV(Data.getLeftElbowAngV());
+        info.setRightElbowAngV(Data.getRightElbowAngV());
+        info.setLeftKneeAngl(Data.getLeftKneeAngl());
+        info.setRightKneeAngl(Data.getRightKneeAngl());
+        info.setLeftElbowAngl(Data.getLeftElbowAngl());
+        info.setRightElbowAngl(Data.getRightElbowAngl());
+         */
+
+        //increase counter by 1
+        Data.counter++;
+
+        //print the recorded data
+        PrintShouldervNorm();
+        PrintHipvNorm();
+        PrintKneeAngV();
+        PrintKneeAngl();
+        PrintElbowAngV();
+        PrintElbowAngl();
+    }
+
+    public static void Gait()throws Exception{
+
+        //set the data deemed relevant for gait
+        Data.setLeftHipvNorm(eng);
+        Data.setRightHipvNorm(eng);
+
+        //Set the relevant lists in Information object TODO
+        /*
+        info.setLeftHipvNorm(Data.getLeftHipvNorm());
+        info.setRightHipvNorm(Data.getRightHipvNorm());
+         */
+
+        //increase counter by 1
+        Data.counter++;
+
+        //print the recorded data
+        PrintHipvNorm();
+
+    }
+
+    //returns true if the subject is in what is recorded as the chair zone
+    public static boolean checkChairArea(){
+        if(dCompletion<d2CHAIRAREA){
+            return true;
         }
         else{
-            bIsConnected = false;
-            if (printOption=="p"){System.out.println("NOT CONNECTED");}
+            return false;
         }
-        return bIsConnected;
+
     }
-        // TODO code application logic here
+    //returns true if the subject is in what is recorded as the stepboard zone
+    public static boolean checkStepboardArea(){
+        if(dCompletion<d2STEPBOARDAREA && dCompletion>d1STEPBOARDAREA){
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
+    //returns true if the subject is in what is recorded as the box zone
+    public static boolean checkBoxArea(){
+        if(dCompletion>d1BOXAREA){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static void configure()throws Exception{
+        //guide for configuring the necessary distances to be able to keep track of where in the track the subject is 
+
+        //length of track from starting position to box at the end
+        System.out.println("Place one marker on the floor in the middle of the two front legs of the chair, and the other just in front of the BOX at the end of track.");
+        pressEnterToContinue();
+        dStartToBox = GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2);
+        System.out.println("Track length configured.");
+
+        //configure the end  limit of the chair area
+        System.out.print("Place one marker on the floor in the middle of the two front legs of the chair, and the other where the CHAIR AREA ENDS.");
+        pressEnterToContinue();
+        d2CHAIRAREA = (GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2))/dStartToBox;
+        System.out.println("CHAIR AREA CONFIGURED"+ String.valueOf(d2CHAIRAREA));
+
+        //configure the start limit of the stepboard area
+        System.out.println("Place one marker on the floor in the middle of the two front legs of the chair, and the other where the STEPBOARD AREA BEGINS.");
+        pressEnterToContinue();
+        d1STEPBOARDAREA = (GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2))/dStartToBox;
+
+        //configure the end limit of the stepboard end
+        System.out.println("Place one marker on the floor in the middle of the two front legs of the chair, and the other where the STEPBOARD AREA ENDS.");
+        pressEnterToContinue();
+        d2STEPBOARDAREA = (GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2))/dStartToBox;
+        System.out.println("STEPBOARD AREA CONFIGURED"+ String.valueOf(d2STEPBOARDAREA));
+
+        //configure the start limit of the box area
+        System.out.println("Place ocne marker on the floor in the middle of the two front legs of the chair, and the other where the BOX AREA BEGINS.");
+        pressEnterToContinue();
+        d1BOXAREA = (GetDistanceBetweenTwoMarkers(sMeasure1, sMeasure2))/dStartToBox;
+        System.out.println("BOX AREA CONFIGURED" + String.valueOf(d1BOXAREA));
+
+        //return measuring markers to starting position for measuring completion during experiment
+        System.out.println("Place the measuring markers as close to the knee marker starting positions as possible. Press enter to finnish configuration.");
+        pressEnterToContinue();
+
+
+    }
+
+
+    private static void pressEnterToContinue(){
+
+        //Method for pressing any key to continue, for me it only works with enter though. 
+
+        System.out.println("Press ENTER to continue...");
+        try
+        {
+            System.in.read();
+        }
+        catch(Exception e)
+        {}
+    }
+
+    public static double GetDistanceBetweenTwoMarkers(String sMarker1, String sMarker2)throws Exception{
+
+        //returns the norm of the vector difference between two RB vectors
+        //parameters are the numbers of the two RBs as they are enumerated in Motive
+
+        eng.eval("currentPos=RBPosition("+sMarker1+", Client);");
+        eng.eval("endPos=RBPosition("+sMarker2+", Client);");
+        eng.eval("Distance=sqrt(sum( (currentPos-endPos).^2));");
+        eng.eval("Distance=double(Distance);");
+        return eng.getVariable("Distance");
+    }
+
+    public static double distFromStart(String sMarker) throws Exception{
+
+        //gets the distance from a specific marker to one of the measuring markers 
+
+        eng.eval("Pos1 = RBPosition("+ sMeasure1+", Client);");
+        eng.eval("Pos2 = RBPosition("+ sMarker+", Client);");
+        eng.eval("dist=norm(Pos1-Pos2);");
+        eng.eval("dist=double(dist);");
+        return eng.getVariable("dist");
+    }
+
+
+
+    public static double Completion(MatlabEngine eng)throws Exception{
+        /*
+        *Method for getting how much of the track has been completed
+        *
+        * = 0 in start position
+        * = 1 by the box at the end of the track
+        *
+        *Arguments:
+        *
+        *eng - Matlab workspace
+
+        *Averages the position of the two knee markers
+
+        */
+
+        //get distances from start for both knees 
+        double dProgress1 = distFromStart(sLeftKnee);
+        double dProgress2 = distFromStart(sRightKnee);
+
+        //sum and divide by 2 for average
+        //divide by track length to get fraction of completion        
+
+        return (dProgress1+dProgress2)/(2.0*dStartToBox);
+
+    }
+
+
+
+}
+
+
     
 
