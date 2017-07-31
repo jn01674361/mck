@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import src.shared.Information;
-//import shared.Information;
 
 /**
  *
