@@ -1,7 +1,7 @@
 //DATACONTAINER
 
 
-        package Desktop.mck.mck;
+        package src.mck;
 
         import com.mathworks.engine.*;
         import java.lang.*;
@@ -86,37 +86,37 @@ public class DataContainer {
 
     }
     public void setLeftKneeAngV(MatlabEngine proxy)throws Exception{
-        if(counter < iListLength-1){LeftKneeAngV.enterMoCapData(commandList[4], proxy, initTime, false);}
+        if(LeftKneeAngV.MoCap.length < iListLength){LeftKneeAngV.enterMoCapData(commandList[4], proxy, initTime, false);}
         else{LeftKneeAngV.enterMoCapData(commandList[4], proxy, initTime, true);}
     }
     public void setRightKneeAngV(MatlabEngine proxy)throws Exception{
-        if(counter < iListLength-1){RightKneeAngV.enterMoCapData(commandList[5], proxy, initTime, false);}
+        if(RightKneeAngV.MoCap.length < iListLength){RightKneeAngV.enterMoCapData(commandList[5], proxy, initTime, false);}
         else{RightKneeAngV.enterMoCapData(commandList[5], proxy, initTime, true);}
     }
     public void setLeftElbowAngV(MatlabEngine proxy)throws Exception{
-        if(counter < iListLength-1){LeftElbowAngV.enterMoCapData(commandList[6], proxy, initTime, false);}
+        if(LeftElbowAngV.MoCap.length < iListLength){LeftElbowAngV.enterMoCapData(commandList[6], proxy, initTime, false);}
         else{LeftElbowAngV.enterMoCapData(commandList[6], proxy, initTime, true);}
     }
     public void setRightElbowAngV(MatlabEngine proxy)throws Exception{
-        if(counter < iListLength-1){RightElbowAngV.enterMoCapData(commandList[7], proxy, initTime, false);}
+        if(RightElbowAngV.MoCap.length < iListLength){RightElbowAngV.enterMoCapData(commandList[7], proxy, initTime, false);}
         else{RightElbowAngV.enterMoCapData(commandList[7], proxy, initTime, true);}
     }
     public void setLeftElbowAngl(MatlabEngine proxy)throws Exception{
-        if(counter < iListLength-1){LeftElbowAngl.enterMoCapData(commandList[10], proxy, initTime, false);}
+        if(LeftElbowAngl.MoCap.length < iListLength){LeftElbowAngl.enterMoCapData(commandList[10], proxy, initTime, false);}
         else{LeftElbowAngl.enterMoCapData(commandList[8], proxy, initTime, true);}
     }
     public void setRightElbowAngl(MatlabEngine proxy)throws Exception{
-        if(counter < iListLength-1){RightElbowAngl.enterMoCapData(commandList[11], proxy, initTime, false);}
+        if(RightElbowAngl.MoCap.length < iListLength){RightElbowAngl.enterMoCapData(commandList[11], proxy, initTime, false);}
         else{RightElbowAngl.enterMoCapData(commandList[9], proxy, initTime, true);}
     }
     public void setLeftKneeAngl(MatlabEngine proxy)throws Exception{
-        if(counter < iListLength-1){LeftKneeAngl.enterMoCapData(commandList[10], proxy, initTime, false);}
+        if(LeftKneeAngl.MoCap.length < iListLength){LeftKneeAngl.enterMoCapData(commandList[10], proxy, initTime, false);}
         else{LeftKneeAngl.enterMoCapData(commandList[10], proxy, initTime, true);}
     }
     public void setRightKneeAngl(MatlabEngine proxy)throws Exception{
-        if(counter < iListLength-1){RightKneeAngl.enterMoCapData(commandList[11], proxy, initTime, false);}
+        if(RightKneeAngl.MoCap.length < iListLength){RightKneeAngl.enterMoCapData(commandList[11], proxy, initTime, false);}
         else{RightKneeAngl.enterMoCapData(commandList[11], proxy, initTime, true);}
     }
 
-
 }
+
