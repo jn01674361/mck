@@ -1,6 +1,6 @@
 //MOCAPDATA
 
-package Desktop.mck.mck;
+package src.mck;
 
 import com.mathworks.engine.*;
 import java.lang.*;
@@ -94,9 +94,5 @@ public class MoCapData {
             }
         }
 
-
-
     }
-
-
 }
